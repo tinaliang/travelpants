@@ -1,85 +1,149 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Travel Pants</title>
+<head>
+  <meta charset="utf-8">
+  <!-- Web Application Manifest -->
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
+</head>
 
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/4.6.2/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/4.6.2/firebase-auth.js"></script>
-    <script defer src="/__/firebase/4.6.2/firebase-database.js"></script>
-    <script defer src="/__/firebase/4.6.2/firebase-messaging.js"></script>
-    <script defer src="/__/firebase/4.6.2/firebase-storage.js"></script>
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
 
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a{ box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #message button {display: block;}
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Posts</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="./newpost.html">New Post</a>
-      <button id="sign-in">Sign In</button>
-      <button id="sign-out" disabled = "true">Sign Out</button>
-    </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
 
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-          firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref().on('value', snapshot => {});
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+<body>
+  <h1>Journal Entries</h1>
+  <button class="button" id="sign-in">Sign In</button>
+  <button class="button" id="sign-out">Sign Out</button>
+  <a target="_self" href="./newpost2.html" class="button">New Post</a>
+  <div id = "journal" class="cardholder"></div>
+</body>
 
-        try {
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
 
-        document.getElementById("sign-in").onclick = function() {
-          var provider = new firebase.auth.GoogleAuthProvider();
-          firebase.auth().signInWithPopup(provider);
-          document.getElementById("sign-in").disabled = true;
-          document.getElementById("sign-out").disabled = false;
-        };
-        document.getElementById("sign-out").onclick = function() {
-          firebase.auth().signOut().then(function() {
-            // Sign-out successful.
-          }).catch(function(error) {
 
-          }
-          document.getElementById("sign-in").disabled = false;
-          document.getElementById("sign-out").disabled = true;
-          });
-          
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDACCeIut5Ry0p9Hq6JiXHLRRYO3tfDx38",
+    authDomain: "travelpants-40ee2.firebaseapp.com",
+    databaseURL: "https://travelpants-40ee2.firebaseio.com",
+    projectId: "travelpants-40ee2",
+    storageBucket: "travelpants-40ee2.appspot.com",
+    messagingSenderId: "178933680878"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<script defer src="/__/firebase/4.6.2/firebase-app.js"></script>
+<!-- include only the Firebase features as you need -->
+<script defer src="/__/firebase/4.6.2/firebase-auth.js"></script>
+<script defer src="/__/firebase/4.6.2/firebase-database.js"></script>
+<script defer src="/__/firebase/4.6.2/firebase-messaging.js"></script>
+<script defer src="/__/firebase/4.6.2/firebase-storage.js"></script>
+<!-- initialize the SDK after all desired features are loaded -->
+<script defer src="/__/firebase/init.js"></script>
+
+<script>
+	var database = firebase.database();
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+      window.user = user;
+      document.getElementById("sign-in").disabled = true;
+      document.getElementById("sign-out").disabled = false;
+      console.log(user.uid);
+      console.log('Requesting notifications permission...');
+      firebase.messaging().requestPermission().then(function() {
+        saveMessagingDeviceToken(user.uid); 
       });
-    </script>
-  </body>
+    } else {
+      document.getElementById("sign-in").disabled = false;
+      document.getElementById("sign-out").disabled = true;
+    }
+  });
+
+  function addJournalHTML(post, author, uniqueId) {
+    var journal = document.getElementById('journal');
+    var text = "<div class='card'" + "id=" + uniqueId + ">" + "<p class='post'>" + post + "</p>" + "<p class='author'>" + author + "</p>" + "</div>";
+    journal.innerHTML += text;
+    var div = document.getElementById(uniqueId);
+    var btn = document.createElement('button');
+    btn.innerHTML = "Comment";
+    btn.className = "commentButton";
+    btn.id = "commentButtonId";
+    btn.addEventListener("click", openCommentsPage);
+    div.appendChild(btn);
+  }
+
+  var addCommentHTML = function(data) {
+    console.log("here");
+    var val = data.val();
+    var divrando = document.createElement('div');
+    divrando.innerHTML = "<p>" + val.text + "</p>" + "<p>" + val.name + "</p>";
+    divrando.className = 'rando';
+    divrando.style.color = getRandomColor();
+    document.getElementById(val.uid).appendChild(divrando);
+  }
+
+  var showWelcomeMessage = function(data) {
+    window.alert(data.val().text);
+  }
+
+  var setMessage = function(data) {
+    var key = data.key;
+    var val = data.val();
+    addJournalHTML(val.text, val.name, key);
+  }
+
+  var openCommentsPage = function(parentID) {
+  	window.param = {commentid: parentID};
+  	console.log(param);
+  	var commentWindow = window.open("./comment.html", "_blank");
+  }
+
+  var saveMessagingDeviceToken = function(userUID) {
+    firebase.messaging().getToken().then(function(currentToken) {
+      if (currentToken) {
+        console.log('Got FCM device token:', currentToken);
+      // Saving the Device Token to the datastore.
+      firebase.database().ref('/fcmTokens').child(currentToken)
+      .set(userUID);
+    } else {
+      // Need to request permissions to show noifications.
+      this.requestNotificationsPermissions();
+    }
+  })
+  };
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  database.ref('journal').on('child_added', setMessage);
+  database.ref('comments').on('child_added', addCommentHTML);
+
+  document.getElementById("sign-in").onclick = function() {
+    var provider = new firebase.auth.GoogleAuthProvider();
+    firebase.auth().signInWithPopup(provider);
+    document.getElementById("sign-in").disabled = true;
+    document.getElementById("sign-out").disabled = false;
+  };
+  document.getElementById("sign-out").onclick = function() {
+    firebase.auth().signOut();
+    document.getElementById("sign-in").disabled = false;
+    document.getElementById("sign-out").disabled = true;
+  };
+
+  document.querySelector("div").addEventListener("click", function(event){
+    if (event.target.className == "commentButton") {
+      openCommentsPage(event.target.parentNode.id);
+    }
+  });
+  
+</script>
+
 </html>

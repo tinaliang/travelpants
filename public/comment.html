@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+    <link rel="stylesheet" href="./style.css">
+     <title>New Comment</title>
+	</head>
+
+<body>
+  <div id="message">
+    <h2>Comment</h2>
+    <form class="form" id="new-entry" action="./index.html" target="_self">
+     <textarea name="text" id="entry" rows="30" cols="80"></textarea><br/>
+     <button class="button" id="submit" onclick="updateDatabase()">Submit</button>
+   </form>
+ </div>
+</body>
+
+<script src="https://www.gstatic.com/firebasejs/4.6.2/firebase.js"></script>
+  <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyDACCeIut5Ry0p9Hq6JiXHLRRYO3tfDx38",
+    authDomain: "travelpants-40ee2.firebaseapp.com",
+    databaseURL: "https://travelpants-40ee2.firebaseio.com",
+    projectId: "travelpants-40ee2",
+    storageBucket: "travelpants-40ee2.appspot.com",
+    messagingSenderId: "178933680878"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<script defer src="/__/firebase/4.6.2/firebase-app.js"></script>
+<!-- include only the Firebase features as you need -->
+<script defer src="/__/firebase/4.6.2/firebase-auth.js"></script>
+<script defer src="/__/firebase/4.6.2/firebase-database.js"></script>
+<script defer src="/__/firebase/4.6.2/firebase-messaging.js"></script>
+<script defer src="/__/firebase/4.6.2/firebase-storage.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.6.0/firebase-firestore.js"></script>
+
+<!-- initialize the SDK after all desired features are loaded -->
+<script defer src="/__/firebase/init.js"></script>
+
+<script>
+  var database = firebase.database();
+  var commentsUID = window.opener.param.commentid;
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    window.user = user;
+  });
+
+  console.log(window.opener.param);
+  console.log(window.opener.param.commentid);
+  console.log(window.opener.uid);
+  function updateDatabase() {
+
+    var entryValue = document.getElementById("entry").value;
+
+    if (user) {
+    database.ref('comments').push({
+        "uid": commentsUID,
+        "name": user.displayName,
+        "text": entryValue,
+    });
+    } else {
+      window.alert("No user is currently signed in. Please sign in and try again.")
+    }
+  }
+</script>
